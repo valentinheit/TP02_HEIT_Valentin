@@ -1,0 +1,32 @@
+<div
+  *ngIf="submitted"
+  style="
+    color: black;
+    background-color: var(--primary);
+    padding: 10px;
+    border-radius: 10px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 20px;
+  "
+>
+  <h1>Récapitulatif</h1>
+  <h2>{{ prenom }} {{ nom }}</h2>
+  <p *ngIf="civilite">
+    Civilité : <b>{{ civilite }}</b>
+  </p>
+  <h2>Coordonnées</h2>
+  <p>Vos coordonnées sont les suivantes :</p>
+  <p>Téléphone : {{ tel | phoneFormat }}</p>
+  <p *ngIf="adresse">
+    <b
+      >{{ adresse | uppercase }}, {{ cp }}, {{ ville | uppercase }} ({{
+        pays | uppercase
+      }}).</b
+    >
+  </p>
+  <p>
+    Votre adresse mail est {{ email }} et votre login <b>{{ login }}</b
+    >.
+  </p>
+</div>

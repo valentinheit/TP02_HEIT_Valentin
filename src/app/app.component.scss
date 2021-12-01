@@ -1,0 +1,35 @@
+:root {
+  --primary: #84c9fb;
+  --main: #18242b;
+  display: grid;
+}
+
+:host {
+  font-family: -apple-system, "Poppins", "Roboto", "Helvetica Neue", "Arial";
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+a,
+a:visited,
+a:hover {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #125699;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 767px) {
+}
+
+@media screen and (max-width: 575px) {
+}

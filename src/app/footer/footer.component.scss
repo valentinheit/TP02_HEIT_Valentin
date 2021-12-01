@@ -1,0 +1,13 @@
+footer {
+  grid-row: 3;
+  display: grid;
+  justify-items: center;
+  padding: 30px;
+  background-color: var(--main);
+  color: var(--primary);
+}
+
+footer a {
+  display: flex;
+  align-items: center;
+}

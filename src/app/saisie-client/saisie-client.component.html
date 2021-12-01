@@ -1,0 +1,130 @@
+<div class="form-container">
+  <form class="form" style="grid-column: 1">
+    <h1>Formulaire de saisie d'informations client</h1>
+    <i>Les champs avec un (*) sont requis.</i>
+
+    <div class="form-group">
+      <div class="sticky" style="background-color: var(--main)">
+        <h2>Informations</h2>
+      </div>
+      <label for="nom">Nom *</label
+      ><input
+        [ngClass]="{ 'input-success': nom, 'input-wrong': !nom }"
+        [(ngModel)]="nom"
+        name="nom"
+      />
+      <label for="prenom">Prénom *</label>
+      <input
+        [ngClass]="{ 'input-success': prenom, 'input-wrong': !prenom }"
+        [(ngModel)]="prenom"
+        required
+        name="prenom"
+      />
+      <label for="civilite">Civilité</label>
+
+      <input [(ngModel)]="civilite" name="civilite" />
+    </div>
+    <div class="form-group">
+      <div class="sticky" style="background-color: var(--main)">
+        <h2>Coordonnées</h2>
+      </div>
+      <label for="adresse">Adresse</label
+      ><input [(ngModel)]="adresse" name="adresse" />
+      <label for="cp">Code postal</label><input [(ngModel)]="cp" name="cp" />
+      <label for="ville">Ville</label
+      ><input [(ngModel)]="ville" name="ville" />
+      <label for="tel">Téléphone * <i>(10 chiffres requis)</i></label
+      ><input
+        type="tel"
+        [ngClass]="{
+          'input-success': tel.length == 10,
+          'input-wrong': tel.length !== 10
+        }"
+        [(ngModel)]="tel"
+        name="tel"
+      />
+      <label for="pays">Pays</label
+      ><input type="email" [(ngModel)]="pays" name="pays" /> Email *<input
+        [ngClass]="{ 'input-success': email, 'input-wrong': !email }"
+        [(ngModel)]="email"
+        name="email"
+      />
+    </div>
+
+    <div
+      class="form-group"
+      style="
+        background-color: var(--primary);
+        color: black;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+      "
+    >
+      <h2>Connexion</h2>
+      <label for="login">Login *</label
+      ><input
+        style="background-color: white"
+        required
+        [ngClass]="{ 'input-success': login, 'input-wrong': !login }"
+        [(ngModel)]="login"
+        name="login"
+      />
+      <label for="password">Mot de passe *</label
+      ><input
+        style="background-color: white"
+        [ngClass]="{ 'input-success': password, 'input-wrong': !password }"
+        *ngIf="isSamePassword()"
+        class="input-success"
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+      />
+      <input
+        style="background-color: white"
+        *ngIf="!isSamePassword()"
+        class="input-wrong"
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+      />
+      <label for="password">Confirmer le mot de passe *</label
+      ><input
+        style="background-color: white"
+        *ngIf="isSamePassword()"
+        class="input-success"
+        type="password"
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+      />
+      <input
+        style="background-color: white"
+        *ngIf="!isSamePassword()"
+        class="input-wrong"
+        type="password"
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+      />
+    </div>
+
+    <button style="margin-top: 10px" class="btn-primary" (click)="showRecap()">
+      Envoyer
+    </button>
+  </form>
+  <div>
+    <app-recapitulatif
+      [submitted]="submitted"
+      [nom]="nom"
+      [prenom]="prenom"
+      [civilite]="civilite"
+      [adresse]="adresse"
+      [cp]="cp"
+      [ville]="ville"
+      [tel]="tel"
+      [email]="email"
+      [pays]="pays"
+      [login]="login"
+      [password]="password"
+    ></app-recapitulatif>
+  </div>
+</div>
