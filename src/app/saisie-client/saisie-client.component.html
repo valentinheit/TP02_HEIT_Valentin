@@ -1,5 +1,10 @@
 <div class="form-container">
-  <form class="form" style="grid-column: 1">
+  <form
+    (ngSubmit)="onSubmit(f)"
+    #f="ngForm"
+    class="form"
+    style="grid-column: 1"
+  >
     <h1>Formulaire de saisie d'informations client</h1>
     <i>Les champs avec un (*) sont requis.</i>
 
@@ -9,20 +14,36 @@
       </div>
       <label for="nom">Nom *</label
       ><input
-        [ngClass]="{ 'input-success': nom, 'input-wrong': !nom }"
+        (change)="this.nomChanged = true"
+        [ngClass]="{
+          'input-wrong': nomChanged && !nom
+        }"
         [(ngModel)]="nom"
         name="nom"
+        required
       />
+      <small class="error-message" *ngIf="this.nomChanged && !nom">
+        Veuillez renseigner un nom
+      </small>
       <label for="prenom">Prénom *</label>
       <input
-        [ngClass]="{ 'input-success': prenom, 'input-wrong': !prenom }"
+        (change)="this.prenomChanged = true"
+        [ngClass]="{
+          'input-wrong': !prenom && prenomChanged
+        }"
         [(ngModel)]="prenom"
-        required
         name="prenom"
+        required
       />
+      <small class="error-message" *ngIf="this.prenomChanged && !prenom">
+        Veuillez renseigner un prénom
+      </small>
       <label for="civilite">Civilité</label>
 
-      <input [(ngModel)]="civilite" name="civilite" />
+      <select [(ngModel)]="civilite" name="civilite">
+        <option>M</option>
+        <option>F</option>
+      </select>
     </div>
     <div class="form-group">
       <div class="sticky" style="background-color: var(--main)">
@@ -35,20 +56,32 @@
       ><input [(ngModel)]="ville" name="ville" />
       <label for="tel">Téléphone * <i>(10 chiffres requis)</i></label
       ><input
+        (change)="telChanged = true"
         type="tel"
         [ngClass]="{
-          'input-success': tel.length == 10,
-          'input-wrong': tel.length !== 10
+          'input-wrong': tel.length !== 10 && telChanged
         }"
         [(ngModel)]="tel"
         name="tel"
+        required
+        tel
       />
-      <label for="pays">Pays</label
-      ><input type="email" [(ngModel)]="pays" name="pays" /> Email *<input
-        [ngClass]="{ 'input-success': email, 'input-wrong': !email }"
+      <label for="pays">Pays</label><input [(ngModel)]="pays" name="pays" />
+      <label for="email">Email *</label
+      ><input
+        (change)="this.emailChanged = true"
+        type="email"
+        [ngClass]="{
+          'input-wrong': emailChanged && !isEmailValid()
+        }"
         [(ngModel)]="email"
         name="email"
+        required
+        email
       />
+      <small *ngIf="emailChanged && !isEmailValid()" class="error-message">
+        Merci de renseigner une adresse mail valide.
+      </small>
     </div>
 
     <div
@@ -65,49 +98,54 @@
       <label for="login">Login *</label
       ><input
         style="background-color: white"
-        required
-        [ngClass]="{ 'input-success': login, 'input-wrong': !login }"
+        [ngClass]="{ 'input-wrong': !login && loginChanged }"
         [(ngModel)]="login"
         name="login"
+        required
       />
       <label for="password">Mot de passe *</label
       ><input
+        (change)="this.passwordChanged = true"
         style="background-color: white"
-        [ngClass]="{ 'input-success': password, 'input-wrong': !password }"
-        *ngIf="isSamePassword()"
-        class="input-success"
+        [ngClass]="{
+          'input-success': password && passwordChanged,
+          'input-wrong': !password && passwordChanged
+        }"
         type="password"
         [(ngModel)]="password"
         name="password"
+        required
       />
+
+      <label for="password">Confirmer le mot de passe *</label>
+
       <input
+        (change)="this.confirmPasswordChanged = true"
         style="background-color: white"
-        *ngIf="!isSamePassword()"
-        class="input-wrong"
-        type="password"
-        [(ngModel)]="password"
-        name="password"
-      />
-      <label for="password">Confirmer le mot de passe *</label
-      ><input
-        style="background-color: white"
-        *ngIf="isSamePassword()"
-        class="input-success"
+        [ngClass]="{
+          'input-success': isSamePassword() && confirmPasswordChanged,
+          'input-wrong': !isSamePassword() && confirmPasswordChanged
+        }"
         type="password"
         [(ngModel)]="confirmPassword"
         name="confirmPassword"
+        required
       />
-      <input
-        style="background-color: white"
-        *ngIf="!isSamePassword()"
-        class="input-wrong"
-        type="password"
-        [(ngModel)]="confirmPassword"
-        name="confirmPassword"
-      />
+      <small
+        class="error-message"
+        *ngIf="!isSamePassword() && confirmPasswordChanged"
+        >Veuillez renseigner le même mot de passe</small
+      >
     </div>
 
-    <button style="margin-top: 10px" class="btn-primary" (click)="showRecap()">
+    <button
+      style="margin-top: 10px"
+      [ngClass]="{
+        'btn-primary': f.valid
+      }"
+      (click)="showRecap()"
+      [disabled]="f.invalid"
+    >
       Envoyer
     </button>
   </form>

@@ -28,6 +28,14 @@ input {
   color: black;
 }
 
+select {
+  border-radius: 3px;
+  border: none;
+  padding: 5px;
+  background-color: #b0c4de;
+  color: black;
+}
+
 .sticky {
   position: -webkit-sticky;
   position: sticky;
